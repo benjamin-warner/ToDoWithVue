@@ -3,13 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Firebase from 'firebase';
+import firebaseConfig from "./config";
 
 Vue.config.productionTip = false
+
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  created(){
+	Firebase.initializeApp(firebaseConfig);
+	}
 })
