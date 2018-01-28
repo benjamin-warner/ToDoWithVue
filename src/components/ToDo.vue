@@ -15,7 +15,6 @@
 
 <script>
 	import Firebase from "firebase"
-	import "firebase/firestore";
 
 	let db = null;
 
@@ -24,28 +23,43 @@
 		data() {
 			return {
 				message: "Hello Ben",
-				todos : [
-				{
-					text: "My first Todo Item"
-				}]
+				todos : [],
 			}
 		},
 
 		created () {
-			db = Firebase.firestore();
+			db = Firebase.database();
 			this.fetchTodos();
 		},
 
 		methods : {
 
+			fetchTodos(){
+				var _this = this;
+				db.ref("todos").once("value").then(function(snapshot){
+					snapshot.forEach(function(data){
+						_this.todos.push(data.val());
+					});
+				});
+			},
+
 			addToDo(){
-				
+				if(this.message){
+					db.ref('todos').push({
+						text: this.message,
+						date : new Date().getTime()
+					});
+					this.message = "";
+				}
+			},
+
+			removeTodo(key){
+
 			}
 
 		}
 	}
 </script>
-
 
 <style>
 	ul {
