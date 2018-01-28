@@ -29,19 +29,27 @@
 
 		created () {
 			db = Firebase.database();
-			this.fetchTodos();
+
+			var _this = this;
+			db.ref('todos').on('value', function(snapshot) {
+  				_this.updateTodoList(snapshot.val());
+			});
 		},
 
 		methods : {
 
-			fetchTodos(){
-				var _this = this;
-				db.ref("todos").once("value").then(function(snapshot){
-					snapshot.forEach(function(data){
-						_this.todos.push(data.val());
-					});
-				});
+			updateTodoList(todoList){
+				this.todos = todoList;
 			},
+
+			// fetchTodos(){
+			// 	var _this = this;
+			// 	db.ref("todos").once("value").then(function(snapshot){
+			// 		snapshot.forEach(function(data){
+			// 			_this.todos.push(data.val());
+			// 		});
+			// 	});
+			// },
 
 			addToDo(){
 				if(this.message){
