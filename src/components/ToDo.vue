@@ -14,9 +14,6 @@
 </template>
 
 <script>
-	import Firebase from "firebase"
-
-	let db = null;
 
 	export default {
 		name:"ToDo",
@@ -27,38 +24,25 @@
 			}
 		},
 
-		created () {
-			db = Firebase.database();
 
-			var _this = this;
-			db.ref('todos').on('value', function(snapshot) {
-  				_this.updateTodoList(snapshot.val());
-			});
+		created(){
+			console.log("Hey there");
+			let storedTodoJson = localStorage.getItem("todos") || "[]";
+			this.todos = JSON.parse(storedTodoJson);
 		},
+
 
 		methods : {
 
-			updateTodoList(todoList){
-				this.todos = todoList;
-			},
-
-			// fetchTodos(){
-			// 	var _this = this;
-			// 	db.ref("todos").once("value").then(function(snapshot){
-			// 		snapshot.forEach(function(data){
-			// 			_this.todos.push(data.val());
-			// 		});
-			// 	});
-			// },
-
 			addToDo(){
 				if(this.message){
-					db.ref('todos').push({
-						text: this.message,
-						date : new Date().getTime()
-					});
+					let todo = { text: this.message };
+					this.todos.push(todo);
+					let todosAsJson = JSON.stringify(this.todos);
+					localStorage.setItem("todos", todosAsJson);
 					this.message = "";
 				}
+				return false;
 			},
 
 			removeTodo(key){
