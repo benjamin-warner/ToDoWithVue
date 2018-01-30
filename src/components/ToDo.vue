@@ -1,13 +1,15 @@
 <template>
 <div id="todo">
-	<h1>To-Do List</h1>
-	<form v-on:submit="addToDo">
-		<input v-model="message" type="text"/>
-	</form>
+	<div id="todoinput">
+		<h1>To-Do List</h1>
+		<form v-on:submit="addToDo">
+			<input v-model="message" type="text"/>
+		</form>
+	</div>
 	<ul>
 		<li v-for="(todo, key) in todos">
 			{{ todo.text }}
-			<button v-on:click="removeTodo(key)">Remove</button>
+			<button v-on:click="removeTodo(key)">Done</button>
 		</li>
 	</ul>
 </div>
@@ -23,7 +25,6 @@
 				todos : [],
 			}
 		},
-
 
 		created(){
 			let storedTodoJson = localStorage.getItem("todos") || "[]";
@@ -57,8 +58,12 @@
 </script>
 
 <style>
-	#todo {
-
+	#todoinput {
+		background: #f5f5f5;
+		box-shadow: 4px 4px 3px #c5c5c5;
+		display: inline-block;
+		padding: 5px 50px 15px;
+		margin-bottom: 10px;
 	}
 	
 	ul {
@@ -69,7 +74,10 @@
 
 	}
 	li {
-		border-bottom: 4px dotted blue;
-		margin: 0;
+		background: #f5f5f5;
+		box-shadow: 4px 4px 3px #c5c5c5;
+		padding: 10px;
+		margin-bottom: 10px;
+		text-overflow: auto;
 	}
 </style>
