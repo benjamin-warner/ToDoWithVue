@@ -3,13 +3,16 @@
 	<div id="todoinput">
 		<h1>To-Do List</h1>
 		<form v-on:submit="addToDo">
-			<input v-model="message" type="text"/>
+			<input v-model="newToDo" type="text"/>
+			<button v-on:click="addToDo">Add</button>
 		</form>
 	</div>
 	<ul>
 		<li v-for="(todo, key) in todos">
-			{{ todo.text }}
-			<button v-on:click="removeTodo(key)">Done</button>
+			<div id="text">{{ todo.text }}</div>
+			<div id="finished">
+				<button v-on:click="removeTodo(key)">Delete</button>
+			</div>
 		</li>
 	</ul>
 </div>
@@ -21,8 +24,8 @@
 		name:"ToDo",
 		data() {
 			return {
-				message: "",
 				todos : [],
+				newToDo : ""
 			}
 		},
 
@@ -34,17 +37,16 @@
 		methods : {
 
 			addToDo(){
-				if(this.message){
-					let todo = { text: this.message };
+				if(this.newToDo){
+					let todo = { text: this.newToDo };
 					this.todos.push(todo);
 					this.updateToDoStorage();
-					this.message = "";
+					this.newToDo = "";
 				}
 			},
 
 			removeTodo(key){
 				this.todos.splice(key, 1);
-				console.log(this.todos);
 				this.updateToDoStorage();
 			},
 
@@ -65,7 +67,7 @@
 		padding: 5px 50px 15px;
 		margin-bottom: 10px;
 	}
-	
+
 	ul {
 		list-style-type: none;
 		margin: 0 auto;
@@ -78,6 +80,6 @@
 		box-shadow: 4px 4px 3px #c5c5c5;
 		padding: 10px;
 		margin-bottom: 10px;
-		text-overflow: auto;
+		overflow-wrap: break-word;
 	}
 </style>
