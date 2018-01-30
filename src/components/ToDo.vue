@@ -1,14 +1,14 @@
 <template>
 <div id="todo">
-	<div id="todoinput">
+	<div id="todoInput">
 		<h1>To-Do List</h1>
 		<form v-on:submit="addToDo">
 			<input v-model="newToDo" type="text"/>
-			<button v-on:click="addToDo">Add</button>
 		</form>
 	</div>
 	<ul>
 		<li v-for="(todo, key) in todos">
+			<div id="postDate"> {{ todo.date }} </div>
 			<div id="text">{{ todo.text }}</div>
 			<div id="finished">
 				<button v-on:click="removeTodo(key)">Delete</button>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+	import {getFormattedDate} from '../TimeHelpers.js';
 
 	export default {
 		name:"ToDo",
@@ -38,7 +39,7 @@
 
 			addToDo(){
 				if(this.newToDo){
-					let todo = { text: this.newToDo };
+					let todo = { text: this.newToDo, date: getFormattedDate() };
 					this.todos.push(todo);
 					this.updateToDoStorage();
 					this.newToDo = "";
@@ -60,12 +61,21 @@
 </script>
 
 <style>
-	#todoinput {
+	#todoInput {
 		background: #f5f5f5;
 		box-shadow: 4px 4px 3px #c5c5c5;
 		display: inline-block;
 		padding: 5px 50px 15px;
 		margin-bottom: 10px;
+	}
+
+	#postDate{
+		position: absolute; 
+		left: 8%;
+	}
+
+	#text{
+		margin-top:2%;
 	}
 
 	ul {
