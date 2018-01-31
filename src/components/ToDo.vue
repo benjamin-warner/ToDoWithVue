@@ -11,10 +11,10 @@
 	</div>
 	<ul>
 		<li v-for="(todo, key) in todos">
-			<div id="postDate"> {{ todo.postDate }} </div>
+			<div id="postDate"> Posted: {{ todo.postDate }} </div>
 			<div id="text">{{ todo.text }}</div>
 			<div id="dueDate">
-				{{ todo.dueDate }}
+				Due by: {{ todo.dueDate }}
 				<button v-on:click="removeTodo(key)">Delete</button>
 			</div>
 		</li>
