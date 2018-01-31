@@ -7,3 +7,9 @@ export function getFormattedDate(date){
 	if(month < 10) month = "0" + month;
 	return [ year, month, day].join("-");
 }
+
+export function isDateInThePast(date){
+	var todayInUnix = Date.now();
+	var dateToCheckInUnix = date.getTime();
+	return todayInUnix - dateToCheckInUnix >= 0;
+}
