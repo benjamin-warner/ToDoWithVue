@@ -1,11 +1,11 @@
 <template>
 <div id="todo">
 	<div id="todoInput">
-		<h1>To-Do List {{ newToDo }}</h1>
+		<h1>To-Do List</h1>
 		<form v-on:submit="addToDo">
 			<div id="inputFields">
-				<input v-model="newToDo" type="text"/>
-				Due by: <input type="date" id="dateInput" v-model="selectedDate"/>
+				<input ref="todoTextInput" v-model="newToDo" type="text"/>
+				Due by: <input type="date" id="dateInput" v-model="selectedDate" @keyup.enter="addToDo"/>
 			</div>
 		</form>
 	</div>
@@ -38,7 +38,7 @@
 		created(){
 			let storedTodoJson = localStorage.getItem("todos") || "[]";
 			this.todos = JSON.parse(storedTodoJson);
-			this.selectedDate = TimeHelpers.getFormattedDate(new Date());
+			this.selectedDate = TimeHelpers.getFormattedDate(new Date().addDays(1));
 		},
 
 		methods : {
@@ -56,6 +56,8 @@
 					this.todos.push(todo);
 					this.updateToDoStorage();
 					this.newToDo = "";
+					this.$refs.todoTextInput.focus();
+					this.selectedDate = TimeHelpers.getFormattedDate(new Date().addDays(1));
 				}
 			},
 
@@ -67,7 +69,7 @@
 			updateToDoStorage(){
 				let todosAsJson = JSON.stringify(this.todos);
 				localStorage.setItem("todos", todosAsJson);
-			}
+			},
 
 		}
 	}

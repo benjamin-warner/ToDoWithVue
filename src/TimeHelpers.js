@@ -13,3 +13,9 @@ export function isDateInThePast(date){
 	var dateToCheckInUnix = date.getTime();
 	return todayInUnix - dateToCheckInUnix >= 0;
 }
+
+Date.prototype.addDays = function(days) {
+  var dat = new Date(this.valueOf());
+  dat.setDate(dat.getDate() + days);
+  return dat;
+}
