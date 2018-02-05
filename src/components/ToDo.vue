@@ -69,7 +69,7 @@
 			updateToDoStorage(){
 				let todosAsJson = JSON.stringify(this.todos);
 				localStorage.setItem("todos", todosAsJson);
-			},
+			}
 
 		}
 	}
@@ -108,7 +108,7 @@
 		padding: 0;
 		margin: 0 auto;
 		width: 90%;
-		margin-bottom: 
+		margin-bottom: 10%
 
 	}
 	li {
