@@ -1,7 +1,7 @@
 <template>
 <div id="todo">
 	<div id="todoInput">
-		<h1>To-Do List</h1>
+		<h1>To-Do List {{ newToDo }}</h1>
 		<form v-on:submit="addToDo">
 			<div id="inputFields">
 				<input v-model="newToDo" type="text"/>
@@ -106,6 +106,7 @@
 		padding: 0;
 		margin: 0 auto;
 		width: 90%;
+		margin-bottom: 
 
 	}
 	li {
