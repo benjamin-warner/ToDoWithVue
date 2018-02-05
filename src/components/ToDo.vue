@@ -4,8 +4,8 @@
 		<h1>To-Do List</h1>
 		<form v-on:submit="addToDo">
 			<div id="inputFields">
-				<input v-model="newToDo" type="text"/>
-				Due by: <input type="date" id="dateInput" v-model="selectedDate"/>
+				<input ref="todoTextInput" v-model="newToDo" type="text"/>
+				Due by: <input type="date" id="dateInput" v-model="selectedDate" @keyup.enter="addToDo"/>
 			</div>
 		</form>
 	</div>
@@ -23,8 +23,7 @@
 </template>
 
 <script>
-	import {getFormattedDate} from '../TimeHelpers';
-	import {isDateInThePast} from '../TimeHelpers';
+	import * as TimeHelpers from '../TimeHelpers';
 
 	export default {
 		name:"ToDo",
@@ -39,24 +38,26 @@
 		created(){
 			let storedTodoJson = localStorage.getItem("todos") || "[]";
 			this.todos = JSON.parse(storedTodoJson);
-			this.selectedDate = getFormattedDate(new Date());
+			this.selectedDate = TimeHelpers.getFormattedDate(new Date().addDays(1));
 		},
 
 		methods : {
 
 			addToDo(){
 				if(this.newToDo){
-					if(isDateInThePast(new Date(this.selectedDate))){
+					if(TimeHelpers.isDateInThePast(new Date(this.selectedDate))){
 						alert("Pick a date in the future!");
 						return;
 					}
 					let todo = { text: this.newToDo, 
-								postDate: getFormattedDate(new Date()),
+								postDate: TimeHelpers.getFormattedDate(new Date()),
 								dueDate : this.selectedDate 
 							};
 					this.todos.push(todo);
 					this.updateToDoStorage();
 					this.newToDo = "";
+					this.$refs.todoTextInput.focus();
+					this.selectedDate = TimeHelpers.getFormattedDate(new Date().addDays(1));
 				}
 			},
 
@@ -68,7 +69,7 @@
 			updateToDoStorage(){
 				let todosAsJson = JSON.stringify(this.todos);
 				localStorage.setItem("todos", todosAsJson);
-			}
+			},
 
 		}
 	}
@@ -107,6 +108,7 @@
 		padding: 0;
 		margin: 0 auto;
 		width: 90%;
+		margin-bottom: 
 
 	}
 	li {
