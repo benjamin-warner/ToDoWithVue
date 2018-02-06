@@ -44,14 +44,16 @@
 		methods : {
 
 			addToDo(){
+				var localizableDate = TimeHelpers.formatDateInputToLocalizableString(this.selectedDate);
 				if(this.newToDo){
-					if(TimeHelpers.isDateInThePast(new Date(this.selectedDate))){
+					if(TimeHelpers.isDateInThePast(new Date(localizableDate))){
 						alert("Pick a date in the future!");
 						return;
 					}
+
 					let todo = { text: this.newToDo, 
-								postDate: TimeHelpers.getFormattedDate(new Date()),
-								dueDate : this.selectedDate 
+								postDate: TimeHelpers.formatDateToLocalizableString(new Date()),
+								dueDate : localizableDate
 							};
 					this.todos.push(todo);
 					this.updateToDoStorage();
